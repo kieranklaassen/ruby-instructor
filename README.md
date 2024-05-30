@@ -22,7 +22,38 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+This gem uses ruby-openai to interact with the OpenAI API and uses tool_tailor to format the response from the OpenAI API.
+
+```ruby
+# UserDetail class represents a user with a name and age.
+class UserDetail
+  attr_accessor :name, :age
+
+  # @param name [String] the name of the user
+  # @param age [Integer] the age of the user, must be written english
+  def initialize(name:, age:)
+    @name = name
+    @age = age
+  end
+end
+
+client = Instructor.from_openai(OpenAI::Client).new
+
+user = client.chat(
+  parameters: {
+    model: 'gpt-4o',
+    messages: [
+        { role: 'user', content: 'Jason is 25 years old' }
+    ]
+  },
+  response_model: UserDetail
+)
+
+user.name
+# => "Jason"
+user.age
+# => 25
+```
 
 ## Development
 
@@ -33,7 +64,6 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/ruby-instructor. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/ruby-instructor/blob/master/CODE_OF_CONDUCT.md).
-
 
 ## License
 
